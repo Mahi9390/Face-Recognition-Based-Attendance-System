@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #628dceff;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 50px;
+        }
+        .role-btn {
+            display: inline-block;
+            padding: 30px 50px;
+            margin: 20px;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .role-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        .admin { background: #d32f2f; }
+        .teacher { background: #1976d2; }
+        .student { background: #388e3c; }
+    </style>
+</head>
+<body>
+    <h1>Smart Attendance Management System</h1>
+    <p>Select your role to login</p>
+
+    <form method="post" action="{% url 'role_login_admin' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="role-btn admin">Login as Admin</button>
+    </form>
+
+    <form method="post" action="{% url 'role_login_teacher' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="role-btn teacher">Login as Teacher</button>
+    </form>
+
+    <form method="post" action="{% url 'role_login_student' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="role-btn student">Login as Student</button>
+    </form>
+</body>
+</html>

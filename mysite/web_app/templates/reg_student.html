@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); min-height: 100vh; }
+        .form-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 40px; max-width: 700px; margin: 50px auto; }
+        .header { background: linear-gradient(45deg, #11998e, #38ef7d); color: white; padding: 25px; border-radius: 15px 15px 0 0; text-align: center; margin: -40px -40px 30px -40px; }
+        .info-box { background: #e8f5e8; border: 1px solid #11998e; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <div class="header">
+            <h2><i class="fas fa-user-graduate fa-lg"></i> Register New Student</h2>
+            <p>Teacher: {{ request.user.get_full_name|default:request.user.username }}</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'warning' %}alert-warning{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="info-box">
+            <p><strong><i class="fas fa-camera"></i> Important:</strong><br>
+            After submitting, the camera will open to capture 50 face images. 
+            Ask the student to look straight at the camera with good lighting.</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="name" class="form-control" required placeholder="e.g. Rahul Sharma">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-id-card"></i> Roll Number</label>
+                    <input type="text" name="roll" class="form-control" required placeholder="e.g. S001" style="text-transform: uppercase;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-book"></i> Course</label>
+                    <input type="text" name="course" class="form-control" required placeholder="e.g. B.Tech">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-stream"></i> Stream/Branch</label>
+                    <input type="text" name="stream" class="form-control" required placeholder="e.g. Computer Science">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-calendar"></i> Year</label>
+                    <select name="year" class="form-control" required>
+                        <option value="">Select Year</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-phone"></i> Phone Number (Optional)</label>
+                    <input type="text" name="phone" class="form-control" placeholder="e.g. 9876543210">
+                </div>
+            </div>
+            <div class="alert alert-info mt-3">
+                <h5><i class="fas fa-info-circle"></i> Student Login Credentials (Auto-Generated)</h5>
+                <p>After registration, the student can log in with:</p>
+                <ul>
+                    <li><strong>Username:</strong> Their Full Name (exactly as entered above)</li>
+                    <li><strong>Password:</strong> Their Roll Number</li>
+                </ul>
+                <p><strong>Example:</strong> If Name = "Rahul Sharma" and Roll = "S001"</p>
+                <ul>
+                    <li>Username: Rahul Sharma</li>
+                    <li>Password: S001</li>
+                </ul>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-lg btn-success">
+                    <i class="fas fa-user-plus"></i> Register Student & Capture Face
+                </button>
+                <a href="{% url 'teacher_dashboard' %}" class="btn btn-secondary btn-lg ms-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

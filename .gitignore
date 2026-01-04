@@ -1,0 +1,31 @@
+# Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE/Editor
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Media & Data (DO NOT upload personal face images or attendance CSVs)
+web_app/Data/
+web_app/attendance/
+web_app/trainer/trainer.yml
+
+# Static & Cache
+staticfiles/
+media/
+
+# Logs
+*.log
+
+# OS Files
+Thumbs.db
+.DS_Store

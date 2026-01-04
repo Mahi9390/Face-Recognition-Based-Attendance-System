@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Teacher Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .card { max-width: 900px; margin: auto; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .header { background: linear-gradient(45deg, #4e54c8, #8f94fb); color: white; padding: 30px; text-align: center; border-radius: 15px 15px 0 0; }
+        .teacher-row { transition: background 0.3s; }
+        .teacher-row:hover { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <div class="card mt-5">
+        <div class="header">
+            <h2><i class="fas fa-chalkboard-teacher"></i> Take Teacher Attendance</h2>
+            <p>Date: {{ today|date:"d M Y" }}</p>
+        </div>
+
+        <div class="card-body p-5">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><input type="checkbox" id="select-all"></th>
+                                <th>Roll</th>
+                                <th>Name</th>
+                                <th>Subject</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher in teachers %}
+                            <tr class="teacher-row">
+                                <td><input type="checkbox" name="present_teachers" value="{{ teacher.roll }}" class="checkbox-select"></td>
+                                <td>{{ teacher.roll }}</td>
+                                <td>{{ teacher.name }}</td>
+                                <td>{{ teacher.subject }}</td>
+                                <td>{{ teacher.phone }}</td>
+                                <td class="{% if teacher.today_status == 'PRESENT' %}text-success{% else %}text-danger{% endif %} fw-bold">
+    {{ teacher.today_status }}
+</td>
+<td>{{ teacher.attendance_percentage }}%</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No teachers registered yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-5">
+                        <i class="fas fa-check"></i> Mark Present & Submit
+                    </button>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-lg ms-3">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Select all checkbox
+        document.getElementById('select-all').addEventListener('change', function(e) {
+            document.querySelectorAll('.checkbox-select').forEach(cb => {
+                cb.checked = e.target.checked;
+            });
+        });
+    </script>
+</body>
+</html>
