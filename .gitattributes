@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+echo "web_app/trainer/trainer.yml" >> .gitignore
+echo "web_app/Data/" >> .gitignore
+echo "web_app/attendance/" >> .gitignore
+echo "db.sqlite3" >> .gitignore
+echo "venv/" >> .gitignore
+echo "__pycache__/" >> .gitignore
